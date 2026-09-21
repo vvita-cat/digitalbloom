@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es-US">
+
+<head>
+  <title>Digital Bloom</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+
+     h1 {
+      margin-top: 20px; }
+
+    p {
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: disappear 1.5s;
+    }
+
+    @keyframes disappear {
+      .from {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .to {
+        opacity: 0;
+        transform: scale(1.5);
+      }
+    }
+
+    .bigCircle {
+      border: 3px solid white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🌸 Digital Bloom 🌸</h1>
+
+  <p>
+    Move your mouse around the screen to create colorful shapes.
+    Click to create a bigger shape!
+  </p>
+
+  <button onclick="clearScreen()">Clear Screen</button>
+
+  <script>
+
+    // Create a shape when the mouse moves
+    document.addEventListener("mousemove", function (event) {
+
+      let circle = document.createElement("div");
+
+      circle.className = "circle";
+
+      let colors = [
+        "hotpink",
+        "cyan",
+        "yellow",
+        "purple",
+        "orange",
+        "lime"
+      ];
+
+      let randomColor =
+        colors[Math.floor(Math.random() * colors.length)];
+
+      circle.style.backgroundColor = randomColor;
+
+      let size = 10 + (event.clientY / window.innerHeight) * 30;
+
+      circle.style.width = size + "px";
+      circle.style.height = size + "px";
+
+      circle.style.left = event.clientX - size / 2 + "px";
+      circle.style.top = event.clientY - size / 2 + "px";
+
+      document.body.appendChild(circle);
+
+      // Remove the circle after 1.5 seconds
+      setTimeout(function () {
+        circle.remove();
+      }, 1500);
+
+    });
+
+
+    // Create a bigger circle when the user clicks
+    document.addEventListener("click", function (event) {
+
+      let circle = document.createElement("div");
+
+      circle.className = "circle bigCircle";
+
+      circle.style.backgroundColor = "white";
+
+      circle.style.width = "60px";
+      circle.style.height = "60px";
+
+      circle.style.left = event.clientX - 30 + "px";
+      circle.style.top = event.clientY - 30 + "px";
+
+      document.body.appendChild(circle);
+
+      setTimeout(function () {
+        circle.remove();
+      }, 1500);
+
+    });
+
+</script>
+</body>
+</html>
