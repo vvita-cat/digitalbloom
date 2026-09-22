@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es-US">
+<html lang="en-US">
 
 <head>
   <title>Digital Bloom</title>
@@ -13,8 +13,9 @@
       overflow: hidden;
     }
 
-     h1 {
-      margin-top: 20px; }
+    h1 {
+      margin-top: 20px;
+    }
 
     p {
       font-size: 16px;
@@ -26,14 +27,15 @@
       cursor: pointer;
     }
 
+    /* Style for every circle we create with JavaScript */
     .circle {
       position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-      animation: disappear 1.5s;
+      border-radius: 50%; /* turns the square div into a circle */
+      pointer-events: none; /* lets clicks pass through the circle */
+      animation: disappear 1.5s; /* runs the fade-out animation below */
     }
 
-    /* keyframes creates an animation. my animation makes the circles slowly disappear */
+    /* This animation makes circles fade out and grow slightly as they disappear */
     @keyframes disappear {
       from {
         opacity: 1;
@@ -64,13 +66,22 @@
 
   <script>
 
-    // Create a shape when the mouse moves
+    // Removes every circle currently on the screen
+    function clearScreen() {
+      let circles = document.querySelectorAll(".circle");
+      for (let i = 0; i < circles.length; i++) {
+        circles[i].remove();
+      }
+    }
+
+    // Runs every time the mouse moves anywhere on the page
     document.addEventListener("mousemove", function (event) {
 
+      // Create a new empty div and give it the "circle" class
       let circle = document.createElement("div");
-
       circle.className = "circle";
 
+      // Pick a random color from the list
       let colors = [
         "hotpink",
         "cyan",
@@ -79,23 +90,22 @@
         "orange",
         "lime"
       ];
-
-      let randomColor =
-        colors[Math.floor(Math.random() * colors.length)];
-
+      let randomColor = colors[Math.floor(Math.random() * colors.length)];
       circle.style.backgroundColor = randomColor;
 
-      let size = 10 + (event.clientY / window.innerHeight) * 30;
-
+      // Pick a random size between 10px and 40px
+      let size = Math.floor(Math.random() * 30) + 10;
       circle.style.width = size + "px";
       circle.style.height = size + "px";
 
+      // Position the circle so it's centered on the mouse
       circle.style.left = event.clientX - size / 2 + "px";
       circle.style.top = event.clientY - size / 2 + "px";
 
+      // Add the circle to the page so it becomes visible
       document.body.appendChild(circle);
 
-      // Remove the circle after 1.5 seconds
+      // Remove the circle after 1.5 seconds (matches the animation length)
       setTimeout(function () {
         circle.remove();
       }, 1500);
@@ -103,36 +113,27 @@
     });
 
 
-    // Create a bigger circle when the user clicks
+    // Runs every time the user clicks the page
     document.addEventListener("click", function (event) {
 
+      // Create a bigger, plain white circle
       let circle = document.createElement("div");
-
       circle.className = "circle bigCircle";
-
       circle.style.backgroundColor = "white";
 
       circle.style.width = "60px";
       circle.style.height = "60px";
 
+      // Center the circle on the click position
       circle.style.left = event.clientX - 30 + "px";
       circle.style.top = event.clientY - 30 + "px";
 
       document.body.appendChild(circle);
-      
 
-       <script>
-
-    function clearScreen() {
-      let circles = document.querySelectorAll(".circle");
-      circles.forEach(function (circle) {
+      // Remove the circle after 1.5 seconds
+      setTimeout(function () {
         circle.remove();
-      });
-    }
-
-    // Create a shape when the mouse moves
-    document.addEventListener("mousemove", function (event) {
-      ...
+      }, 1500);
 
     });
 
