@@ -38,7 +38,7 @@
         opacity: 1;
         transform: scale(1);
       }
-
+keyframes creates an animation. my animation makes the circles slowly disappear 
       .to {
         opacity: 0;
         transform: scale(1.5);
@@ -60,13 +60,11 @@
     Click to create a bigger shape!
   </p>
 
-  <button onclick="clearScreen()">Clear Screen</button>
-
   <script>
 
     // Create a shape when the mouse moves
     document.addEventListener("mousemove", function (event) {
-
+tells the computer to watch for mouse movement
       let circle = document.createElement("div");
 
       circle.className = "circle";
@@ -82,7 +80,7 @@
 
       let randomColor =
         colors[Math.floor(Math.random() * colors.length)];
-
+randomly chooses one color from my list
       circle.style.backgroundColor = randomColor;
 
       let size = 10 + (event.clientY / window.innerHeight) * 30;
@@ -92,11 +90,13 @@
 
       circle.style.left = event.clientX - size / 2 + "px";
       circle.style.top = event.clientY - size / 2 + "px";
-
+tells the computer the horizontal and vertical position of the mouse
+use the mouses X and Y positoins the place the circle on the screen
       document.body.appendChild(circle);
-
+adds a new circle to the webpage so the person can see it 
       // Remove the circle after 1.5 seconds
       setTimeout(function () {
+     it waits 1.5 seconds and then removes rhe circle
         circle.remove();
       }, 1500);
 
@@ -105,9 +105,9 @@
 
     // Create a bigger circle when the user clicks
     document.addEventListener("click", function (event) {
-
+tells the computer to watch for a click. when the user clicks it it creates another circle
       let circle = document.createElement("div");
-
+it creates a new html div that i use as my circle
       circle.className = "circle bigCircle";
 
       circle.style.backgroundColor = "white";
@@ -119,7 +119,7 @@
       circle.style.top = event.clientY - 30 + "px";
 
       document.body.appendChild(circle);
-
+puts it on the page
       setTimeout(function () {
         circle.remove();
       }, 1500);
