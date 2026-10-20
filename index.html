@@ -3,10 +3,10 @@
 
 <head>
   <!--
-    AI CITATION & DISCLOSURE
-    - Tool: OpenAI ChatGPT
-    - Initial Prompt: "Create an interactive HTML, CSS, and JavaScript page called Digital Bloom where moving the mouse leaves a trail of colorful fading circles, clicking spawns a larger white shape, and there is a button to clear the screen."
-    - Student Note: Code reviewed, verified, and commented with generalized syntax and conceptual explanations by student for all DOM and CSS animation mechanics.
+    AI CITATION & NOTE:
+    - Tool used: ChatGPT
+    - Prompt: "How can I write JavaScript and CSS to make colorful circles follow my mouse cursor, fade out after a second and a half, and create a bigger circle when clicked?"
+    - Note: HTML layout and page styling created by me. AI used as a tutor to help understand JavaScript mouse tracking and CSS keyframe animations.
   -->
   <title>Digital Bloom</title>
   <style>
@@ -16,7 +16,7 @@
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      overflow: hidden; /* Prevents scrollbars when circles expand near window edges */
+      overflow: hidden; /* Stops scrollbars from showing up if circles go off-screen */
     }
 
     h1 {
@@ -32,47 +32,39 @@
       font-size: 16px;
       cursor: pointer;
       position: relative;
-      z-index: 10; /* Keeps button clickable above dynamically spawned shapes */
+      z-index: 10; /* Keeps the button above circles so you can still click it */
     }
 
     /* 
-      CONCEPT: Absolute Positioning & CSS Circle Shape
-      - Generalized Syntax: 
-          selector { position: absolute; border-radius: 50%; }
-      - In my own words: 
-          "position: absolute" removes the element from document flow, allowing coordinate-based 
-          placement (left/top). "border-radius: 50%" rounds corners of a square box into a circle.
+      CONCEPT: Absolute Positioning & Circles
+      - Syntax: position: absolute; border-radius: 50%;
+      - In my own words: position: absolute lets me place the circles anywhere using X and Y coordinates. 
+        border-radius: 50% turns a square div into a circle.
     */
     .circle {
       position: absolute;
       border-radius: 50%;
 
       /* 
-        CONCEPT: Click-through Behavior
-        - Generalized Syntax: pointer-events: none | auto;
-        - In my own words: 
-            Prevents the circle from catching mouse clicks, letting clicks pass through to whatever is underneath.
+        CONCEPT: pointer-events
+        - Syntax: pointer-events: none;
+        - In my own words: Makes the circles "invisible" to clicks so clicks go right through them.
       */
       pointer-events: none;
 
-      /* 
-        CONCEPT: CSS Animation Trigger
-        - Generalized Syntax: animation: <name> <duration> <timing-function>;
-        - In my own words: Runs the @keyframes animation named "disappear" over 1.5 seconds.
-      */
+      /* Runs the fade out animation below for 1.5 seconds */
       animation: disappear 1.5s forwards;
     }
 
     /* 
-      CONCEPT: CSS Keyframe Animation
-      - Generalized Syntax:
-          @keyframes <name> {
-            from { <css-property>: <start-value>; }
-            to   { <css-property>: <end-value>; }
+      CONCEPT: @keyframes (CSS Animation)
+      - Syntax: 
+          @keyframes name {
+            from { property: start; }
+            to { property: end; }
           }
-      - In my own words: 
-          Transitions the circle from fully opaque (opacity: 1) and normal size (scale 1) 
-          to transparent (opacity: 0) and 1.5x larger (scale 1.5).
+      - In my own words: Starts the circle visible (opacity 1) and normal size (scale 1), 
+        and fades it out to invisible (opacity 0) while growing 50% bigger (scale 1.5).
     */
     @keyframes disappear {
       from {
@@ -105,16 +97,13 @@
   <script>
 
     /*
-      CONCEPT: DOM Querying & Batch Element Deletion
-      - Generalized Syntax: 
-          document.querySelectorAll("<css-selector>")
-          element.remove()
-      - In my own words: 
-          querySelectorAll finds every element matching the selector and returns a list. 
-          A loop iterates through that list to delete each circle from the DOM with .remove().
+      CONCEPT: querySelectorAll & Deleting Elements
+      - Syntax: document.querySelectorAll(".class"); element.remove();
+      - In my own words: Grabs all the active circles on the page into a list, 
+        then loops through them to delete each one when the button is clicked.
     */
     function clearScreen(event) {
-      if (event) event.stopPropagation(); // Stops the document-wide click listener from firing
+      if (event) event.stopPropagation(); // Stops the document click listener from firing
       let circles = document.querySelectorAll(".circle");
       for (let i = 0; i < circles.length; i++) {
         circles[i].remove();
@@ -122,14 +111,12 @@
     }
 
     /*
-      CONCEPT: Mouse Event Listener & Dynamic Element Injection
-      - Generalized Syntax:
-          target.addEventListener("<event>", function(eventObject) { ... })
-          document.createElement("<tag>")
-          parent.appendChild(child)
-      - In my own words: 
-          Fires on mouse motion. Creates a new <div> in memory, styles it with random dimensions 
-          and colors, centers it at event.clientX/clientY, and appends it to document.body.
+      CONCEPT: Mousemove Listener & Creating Elements
+      - Syntax: target.addEventListener("event", function(event) { ... });
+                document.createElement("tag");
+                parent.appendChild(child);
+      - In my own words: Every time the mouse moves, it makes a new div in JavaScript, 
+        picks a random color and size, centers it on the cursor tip, and adds it to the page.
     */
     document.addEventListener("mousemove", function (event) {
 
@@ -137,11 +124,10 @@
       circle.className = "circle";
 
       /*
-        CONCEPT: Pseudo-Random Selection
-        - Generalized Syntax: array[Math.floor(Math.random() * array.length)]
-        - In my own words: 
-            Math.random() generates a decimal between 0 and 0.999; multiplying by array length 
-            and flooring with Math.floor gives a valid random integer index.
+        CONCEPT: Random Color Picker
+        - Syntax: array[Math.floor(Math.random() * array.length)]
+        - In my own words: Math.random() gives a decimal, multiplying by the array length 
+          and rounding down with Math.floor gives a valid index to pick a color.
       */
       let colors = [
         "hotpink",
@@ -154,26 +140,22 @@
       let randomColor = colors[Math.floor(Math.random() * colors.length)];
       circle.style.backgroundColor = randomColor;
 
-      // Random diameter between 10px and 39px
+      // Random size between 10px and 39px
       let size = Math.floor(Math.random() * 30) + 10;
       circle.style.width = size + "px";
       circle.style.height = size + "px";
 
-      /*
-        CONCEPT: Coordinate Centering Math
-        - In my own words: 
-            Subtracting half the width/height (size / 2) centers the circle directly on the cursor point.
-      */
+      // Subtracting half the size centers the circle right over the cursor
       circle.style.left = (event.clientX - size / 2) + "px";
       circle.style.top = (event.clientY - size / 2) + "px";
 
       document.body.appendChild(circle);
 
       /*
-        CONCEPT: Asynchronous Memory Cleanup
-        - Generalized Syntax: setTimeout(callbackFunction, delayInMilliseconds)
-        - In my own words: 
-            Waits 1500ms (until the CSS fade animation finishes) and deletes the invisible div from memory.
+        CONCEPT: setTimeout
+        - Syntax: setTimeout(function() { ... }, milliseconds);
+        - In my own words: Waits 1.5 seconds (1500ms) for the fade animation to finish, 
+          then deletes the div so invisible circles don't lag the browser.
       */
       setTimeout(function () {
         circle.remove();
@@ -182,12 +164,12 @@
     });
 
     /*
-      CONCEPT: Click Event Listener
-      - Spawns a larger 60px white circle centered on the click point.
+      CONCEPT: Click Listener
+      - Spawns a bigger white circle (60px) wherever the user clicks.
     */
     document.addEventListener("click", function (event) {
 
-      // Don't spawn a circle if the user clicked the Clear Screen button
+      // Don't spawn a circle if the user just clicked the Clear Screen button
       if (event.target.tagName === "BUTTON") return;
 
       let circle = document.createElement("div");
@@ -198,6 +180,7 @@
       circle.style.width = size + "px";
       circle.style.height = size + "px";
 
+      // Center the 60px circle on the click
       circle.style.left = (event.clientX - size / 2) + "px";
       circle.style.top = (event.clientY - size / 2) + "px";
 
