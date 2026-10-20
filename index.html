@@ -61,17 +61,17 @@
       - Syntax: 
           @keyframes name {
             from { property: start; }
-            to { property: end; }
+            .to { property: end; }
           }
       - In my own words: Starts the circle visible (opacity 1) and normal size (scale 1), 
         and fades it out to invisible (opacity 0) while growing 50% bigger (scale 1.5).
     */
     @keyframes disappear {
-      from {
+      .from {
         opacity: 1;
         transform: scale(1);
       }
-      to {
+      .to {
         opacity: 0;
         transform: scale(1.5);
       }
